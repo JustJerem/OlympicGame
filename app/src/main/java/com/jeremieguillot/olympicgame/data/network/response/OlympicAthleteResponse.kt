@@ -1,6 +1,7 @@
 package com.jeremieguillot.olympicgame.data.network.response
 
 
+import com.jeremieguillot.olympicgame.BuildConfig
 import com.jeremieguillot.olympicgame.domain.model.OlympicAthleteModel
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -26,14 +27,13 @@ data class OlympicAthleteResponse(
 ) {
     fun toDomainModel(): OlympicAthleteModel {
         return OlympicAthleteModel(
-            athleteId,
-            photoId,
-            name,
-            surname,
-            bio,
-            dateOfBirth,
-            OlympicAthleteModel.AthleteMeasurements(weight, height)
+            athleteId = athleteId,
+            photoPath = "${BuildConfig.API_BASE_URL}athletes/$photoId/photo",
+            name = name,
+            surname = surname,
+            bio = bio,
+            dateOfBirth = dateOfBirth,
+            measurements = OlympicAthleteModel.AthleteMeasurements(weight, height)
         )
-
     }
 }

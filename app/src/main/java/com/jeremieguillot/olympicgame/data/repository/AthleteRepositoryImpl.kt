@@ -3,33 +3,39 @@
 package com.jeremieguillot.olympicgame.data.repository
 
 import com.jeremieguillot.olympicgame.data.network.client.OlympicApiClient
-import com.jeremieguillot.olympicgame.data.network.util.NetworkHandlerImpl
+import com.jeremieguillot.olympicgame.data.network.util.NetworkHandler
+import com.jeremieguillot.olympicgame.domain.interactors.common.Failure
+import com.jeremieguillot.olympicgame.domain.model.OlympicAthleteModel
+import com.jeremieguillot.olympicgame.domain.model.OlympicAthleteResultsModel
 import com.jeremieguillot.olympicgame.domain.repository.AthleteRepository
 import kotlinx.coroutines.InternalCoroutinesApi
 
 class AthleteRepositoryImpl(
-    networkHandler: NetworkHandlerImpl,
+    private val networkHandler: NetworkHandler,
     private val apiClient: OlympicApiClient
-) : BaseRepository(networkHandler = networkHandler),
-    AthleteRepository {
-    override suspend fun getAthletes() {
-        return request(
-            call = { apiClient.getAthletes() },
-            transform = { response -> response.map { it.toDomainModel() } }
-        )
+) : AthleteRepository {
+
+    //Get All Athletes from the RemoteData API
+    override suspend fun getAthletes(): List<OlympicAthleteModel> {
+        if (networkHandler.isNetworkAvailable()) {
+            try {
+                val response = apiClient.getAthletes()
+                return response.map { it.toDomainModel() }
+            } catch (e: Exception) {
+                throw Failure.ServerError(e.message)
+            }
+        } else throw Failure.NetworkConnection
     }
 
-    override suspend fun getAthlete(id: String) {
-        return request(
-            call = { apiClient.getAthlete(id) },
-            transform = { response -> response.toDomainModel() }
-        )
-    }
-
-    override suspend fun getAthleteResults(id: String) {
-        return request(
-            call = { apiClient.getAthleteResults(id) },
-            transform = { response -> response.map { it.toDomainModel() } }
-        )
+    //Get athlete's results from the RemoteData API
+    override suspend fun getAthleteResults(id: String): List<OlympicAthleteResultsModel> {
+        if (networkHandler.isNetworkAvailable()) {
+            try {
+                val response = apiClient.getAthleteResults(id)
+                return response.map { it.toDomainModel() }
+            } catch (e: Exception) {
+                throw Failure.ServerError(e.message)
+            }
+        } else throw Failure.NetworkConnection
     }
 }

@@ -1,0 +1,16 @@
+<resources>
+    <string name="a11y_athlete_picture">Photo de l\'athlète</string>
+    <string name="a11y_back_button">Retour</string>
+    <string name="app_name">Paris 2024</string>
+    <string name="empty_game_card_description">Il semble que personne n\'ait rejoint ce jeu.</string>
+    <string name="games_screen_title">Athlètes olympiques</string>
+    <string name="general_hide">Masquer</string>
+    <string name="general_see_more">Voir plus</string>
+    <string name="profile_bio">Biographie</string>
+    <string name="profile_detail_abbreviation_centimeter">cm</string>
+    <string name="profile_detail_abbreviation_kilo">kg</string>
+    <string name="profile_medals">Médailles</string>
+    <string name="splashscreen_description">Veuillez patienter, les athlètes se réchauffent…</string>
+    <string name="welcome_card_subtitle">Rejoignez-nous pour les Jeux olympiques de Paris 2024</string>
+    <string name="welcome_card_title">Allons-y !</string>
+</resources>

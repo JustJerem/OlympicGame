@@ -4,4 +4,6 @@ data class OlympicGameModel(
     val gameId: Int,
     val city: String,
     val year: Int
-)
+) {
+    var athletes: List<OlympicAthleteModel> = emptyList()
+}

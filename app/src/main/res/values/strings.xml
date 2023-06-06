@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">OlympicGame</string>
+    <string name="a11y_athlete_picture">Athlete Picture</string>
+    <string name="a11y_back_button">Back</string>
+    <string name="app_name">Paris 2024</string>
+    <string name="empty_game_card_description">It seems that nobody joined this game.</string>
+    <string name="games_screen_title">Olympic Athletes</string>
+    <string name="general_hide">Hide</string>
+    <string name="general_see_more">See more</string>
+    <string name="profile_bio">Bio</string>
+    <string name="profile_detail_abbreviation_centimeter">cm</string>
+    <string name="profile_detail_abbreviation_kilo">kg</string>
+    <string name="profile_medals">Medals</string>
+    <string name="splashscreen_description">Please wait, athletes warm up....</string>
+    <string name="welcome_card_subtitle">Join us for the Paris 2024 Olympic Games</string>
+    <string name="welcome_card_title">Let\'s Go!</string>
 </resources>

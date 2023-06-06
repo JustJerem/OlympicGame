@@ -1,11 +1,8 @@
 package com.jeremieguillot.olympicgame.domain.repository
 
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.jeremieguillot.olympicgame.domain.model.OlympicGameModel
 
 interface GameRepository {
 
-    suspend fun getGames()
-
-    suspend fun getAthletesInGame(id: String)
+    suspend fun getGames(): List<OlympicGameModel>
 }

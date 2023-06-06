@@ -1,9 +1,7 @@
 package com.jeremieguillot.olympicgame.di
-
-import android.webkit.WebView
+import com.jeremieguillot.olympicgame.BuildConfig
 import com.jeremieguillot.olympicgame.data.network.client.OlympicApiClient
 import com.moczul.ok2curl.CurlInterceptor
-import com.ramcosta.composedestinations.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module

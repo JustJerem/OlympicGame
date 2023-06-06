@@ -3,27 +3,26 @@
 package com.jeremieguillot.olympicgame.data.repository
 
 import com.jeremieguillot.olympicgame.data.network.client.OlympicApiClient
-import com.jeremieguillot.olympicgame.data.network.util.NetworkHandlerImpl
+import com.jeremieguillot.olympicgame.data.network.util.NetworkHandler
+import com.jeremieguillot.olympicgame.domain.interactors.common.Failure
+import com.jeremieguillot.olympicgame.domain.model.OlympicGameModel
 import com.jeremieguillot.olympicgame.domain.repository.GameRepository
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 class GameRepositoryImpl @Inject constructor(
-    networkHandler: NetworkHandlerImpl,
+    private val networkHandler: NetworkHandler,
     private val apiClient: OlympicApiClient
-) : BaseRepository(networkHandler = networkHandler),
-    GameRepository {
-    override suspend fun getGames() {
-        return request(
-            call = { apiClient.getGames() },
-            transform = { response -> response.map { it.toDomainModel() } }
-        )
-    }
+) : GameRepository {
 
-    override suspend fun getAthletesInGame(gameId: String) {
-        return request(
-            call = { apiClient.getAthletesInGame(gameId) },
-            transform = { response -> response.map { it.toDomainModel() } }
-        )
+    //Get all games from the RemoteData API
+    override suspend fun getGames(): List<OlympicGameModel> {
+        if (networkHandler.isNetworkAvailable()) {
+            try {
+                return apiClient.getGames().map { it.toDomainModel() }
+            } catch (e: Exception) {
+                throw Failure.ServerError(e.message)
+            }
+        } else throw Failure.NetworkConnection
     }
 }

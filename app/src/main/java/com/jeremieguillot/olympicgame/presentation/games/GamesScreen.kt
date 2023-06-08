@@ -25,19 +25,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jeremieguillot.olympicgame.R
-import com.jeremieguillot.olympicgame.mainActivity
 import com.jeremieguillot.olympicgame.presentation.destinations.AthleteProfileScreenDestination
 import com.jeremieguillot.olympicgame.presentation.games.composable.AthleteCard
 import com.jeremieguillot.olympicgame.presentation.games.composable.EmptyGameCard
+import com.jeremieguillot.olympicgame.presentation.games.composable.LoadingGames
 import com.jeremieguillot.olympicgame.presentation.games.composable.WelcomeOlympicCard
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
 @Destination
+@RootNavGraph(start = true)
 @Composable
 fun GamesScreen(
-    viewModel: GamesViewModel = hiltViewModel(mainActivity()),
+    viewModel: GamesViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
 
@@ -67,48 +69,52 @@ fun GamesScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
-        LazyColumn(
-            modifier = Modifier.padding(it),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(16.dp)
-        ) {
 
-            item {
-                WelcomeOlympicCard()
-            }
+        if (!viewModel.state.isViewLoading) {
+            LazyColumn(
+                modifier = Modifier.padding(it),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
 
-            items(viewModel.state.games) { game ->
-                Text(
-                    text = game.city,
-                    style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                )
-                Text(
-                    text = game.year.toString(),
-                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal)
-                )
+                item {
+                    WelcomeOlympicCard()
+                }
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(top = 8.dp)
-                ) {
-                    if (game.athletes.isNotEmpty()) {
-                        items(items = game.athletes) { athlete ->
-                            AthleteCard(
-                                athlete,
-                                game
-                            ) {
-                                navigator.navigate(
-                                    AthleteProfileScreenDestination(athlete = athlete)
-                                )
+                items(viewModel.state.games) { game ->
+                    Text(
+                        text = game.city,
+                        style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    )
+                    Text(
+                        text = game.year.toString(),
+                        style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(top = 8.dp)
+                    ) {
+                        if (game.athletes.isNotEmpty()) {
+                            items(items = game.athletes) { athlete ->
+                                AthleteCard(
+                                    athlete,
+                                    game
+                                ) {
+                                    navigator.navigate(
+                                        AthleteProfileScreenDestination(athlete = athlete)
+                                    )
+                                }
                             }
-                        }
-                    } else {
-                        item {
-                            EmptyGameCard()
+                        } else {
+                            item {
+                                EmptyGameCard()
+                            }
                         }
                     }
                 }
             }
         }
+        LoadingGames(isLoadingOngoing = viewModel.state.isViewLoading)
     }
 }

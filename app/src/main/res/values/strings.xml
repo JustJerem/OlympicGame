@@ -6,6 +6,7 @@
     <string name="games_screen_title">Olympic Athletes</string>
     <string name="general_hide">Hide</string>
     <string name="general_see_more">See more</string>
+    <string name="general_unknown_issue">An unknown error has occurred</string>
     <string name="profile_bio">Bio</string>
     <string name="profile_detail_abbreviation_centimeter">cm</string>
     <string name="profile_detail_abbreviation_kilo">kg</string>

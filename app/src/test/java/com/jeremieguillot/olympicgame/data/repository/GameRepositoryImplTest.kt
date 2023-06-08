@@ -34,6 +34,7 @@ class GameRepositoryImplTest {
         // Mock the API response
         val total = 10
         val mockResponse = FakeResponseRepository.getGames(total)
+        `when`(networkHandler.isNetworkAvailable()).thenReturn(true)
         `when`(apiClient.getGames()).thenReturn(mockResponse)
 
         // Call the actual method

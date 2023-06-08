@@ -6,6 +6,7 @@
     <string name="games_screen_title">Atletas Olímpicos</string>
     <string name="general_hide">Ocultar</string>
     <string name="general_see_more">Ver más</string>
+    <string name="general_unknown_issue">Se ha producido un error desconocido</string>
     <string name="profile_bio">Biografía</string>
     <string name="profile_detail_abbreviation_centimeter">cm</string>
     <string name="profile_detail_abbreviation_kilo">kg</string>

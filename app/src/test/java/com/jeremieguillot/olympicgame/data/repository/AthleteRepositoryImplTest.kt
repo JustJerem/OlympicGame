@@ -34,6 +34,8 @@ class AthleteRepositoryImplTest {
         // Mock the API response
         val total = 10
         val mockResponse = FakeResponseRepository.getOlympicAthleteResponses(total)
+
+        `when`(networkHandler.isNetworkAvailable()).thenReturn(true)
         `when`(apiClient.getAthletes()).thenReturn(mockResponse)
 
         // Call the actual method
@@ -49,6 +51,7 @@ class AthleteRepositoryImplTest {
         // Mock the response from apiClient
         val total = 10
         val athleteResults = FakeResponseRepository.getOlympicAthleteResultsResponses(total)
+        `when`(networkHandler.isNetworkAvailable()).thenReturn(true)
         `when`(apiClient.getAthleteResults("1")).thenReturn(athleteResults)
 
         // Call the method under test

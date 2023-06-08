@@ -11,12 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +32,7 @@ import com.jeremieguillot.olympicgame.presentation.games.composable.EmptyGameCar
 import com.jeremieguillot.olympicgame.presentation.games.composable.WelcomeOlympicCard
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @Destination
 @Composable
@@ -38,6 +40,22 @@ fun GamesScreen(
     viewModel: GamesViewModel = hiltViewModel(mainActivity()),
     navigator: DestinationsNavigator
 ) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = snackbarHostState) {
+        viewModel.errorEvents.collect { error ->
+            when (error) {
+                is GamesContract.Error.UnknownIssue -> scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = error.message.asString(context)
+                    )
+                }
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -47,6 +65,7 @@ fun GamesScreen(
                 }
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
         LazyColumn(
             modifier = Modifier.padding(it),

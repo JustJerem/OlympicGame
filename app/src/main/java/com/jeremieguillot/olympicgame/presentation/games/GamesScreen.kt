@@ -33,6 +33,7 @@ import com.jeremieguillot.olympicgame.presentation.games.composable.WelcomeOlymp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @Destination
@@ -42,13 +43,21 @@ fun GamesScreen(
     viewModel: GamesViewModel = hiltViewModel(),
     navigator: DestinationsNavigator
 ) {
+    GamesScreen(viewModel.state, navigator, viewModel.errorEvents)
+}
 
+@Composable
+fun GamesScreen(
+    state: GamesContract.State,
+    navigator: DestinationsNavigator,
+    errorEvents: Flow<GamesContract.Error>
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     LaunchedEffect(key1 = snackbarHostState) {
-        viewModel.errorEvents.collect { error ->
+        errorEvents.collect { error ->
             when (error) {
                 is GamesContract.Error.UnknownIssue -> scope.launch {
                     snackbarHostState.showSnackbar(
@@ -70,7 +79,7 @@ fun GamesScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) {
 
-        if (!viewModel.state.isViewLoading) {
+        if (!state.isViewLoading) {
             LazyColumn(
                 modifier = Modifier.padding(it),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -81,7 +90,7 @@ fun GamesScreen(
                     WelcomeOlympicCard()
                 }
 
-                items(viewModel.state.games) { game ->
+                items(state.games) { game ->
                     Text(
                         text = game.city,
                         style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
@@ -115,6 +124,6 @@ fun GamesScreen(
                 }
             }
         }
-        LoadingGames(isLoadingOngoing = viewModel.state.isViewLoading)
+        LoadingGames(isLoadingOngoing = state.isViewLoading)
     }
 }

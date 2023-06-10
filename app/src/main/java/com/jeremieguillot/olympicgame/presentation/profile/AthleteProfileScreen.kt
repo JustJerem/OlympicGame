@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,10 +24,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.halilibo.richtext.markdown.Markdown
 import com.halilibo.richtext.ui.RichText
 import com.jeremieguillot.olympicgame.R
+import com.jeremieguillot.olympicgame.domain.model.OlympicAthleteModel
 import com.jeremieguillot.olympicgame.presentation.data.navigation.AthleteProfileNavArgs
 import com.jeremieguillot.olympicgame.presentation.games.composable.MedalItem
 import com.jeremieguillot.olympicgame.presentation.games.composable.MedalType
 import com.jeremieguillot.olympicgame.presentation.profile.composables.AthleteProfile
+import com.jeremieguillot.olympicgame.presentation.utils.Tags
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -39,6 +42,14 @@ fun AthleteProfileScreen(
 
     val athlete = viewModel.state.athleteProfile ?: return
 
+    AthleteProfileScreen(athlete, navigator)
+}
+
+@Composable
+fun AthleteProfileScreen(
+    athlete: OlympicAthleteModel,
+    navigator: DestinationsNavigator
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -128,6 +139,7 @@ fun AthleteProfileScreen(
                     )
                     TextButton(
                         onClick = { expanded = expanded.not() },
+                        modifier = Modifier.testTag(Tags.SeeMore.label)
                     ) {
                         Text(
                             text = stringResource(

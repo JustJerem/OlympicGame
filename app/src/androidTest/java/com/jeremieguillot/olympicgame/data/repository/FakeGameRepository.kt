@@ -1,4 +1,4 @@
-package com.jeremieguillot.olympicgame.data.repository.fake
+package com.jeremieguillot.olympicgame.data.repository
 
 import com.jeremieguillot.olympicgame.domain.model.OlympicGameModel
 import com.jeremieguillot.olympicgame.domain.repository.GameRepository
@@ -13,6 +13,4 @@ class FakeGameRepository : GameRepository {
             )
         )
     }
-
-
 }

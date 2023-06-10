@@ -1,5 +1,6 @@
 package com.jeremieguillot.olympicgame.di
 
+import android.content.Context
 import com.jeremieguillot.olympicgame.data.network.client.OlympicApiClient
 import com.jeremieguillot.olympicgame.data.network.util.NetworkHandlerImpl
 import com.jeremieguillot.olympicgame.data.repository.AthleteRepositoryImpl
@@ -9,6 +10,7 @@ import com.jeremieguillot.olympicgame.domain.repository.GameRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -32,10 +34,16 @@ object DataModule {
     fun provideGameRepository(
         networkHandler: NetworkHandlerImpl,
         apiClient: OlympicApiClient
-    ) : GameRepository {
+    ): GameRepository {
         return GameRepositoryImpl(
             networkHandler,
             apiClient
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providesNetworkHandler(@ApplicationContext context: Context): NetworkHandlerImpl {
+        return NetworkHandlerImpl(context)
     }
 }

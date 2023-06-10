@@ -1,5 +1,6 @@
+
 # Paris 2024
-Application for Paris 2024 Olympic Game.
+Application for Paris 2024 Olympic Game. Clearn Architecture & MVI.
 
 * Splashscreen with animated Olympic rings
 * Access to all dates and Olympic Games
@@ -9,6 +10,10 @@ Application for Paris 2024 Olympic Game.
 * Internationalized for English, Spanish and French
 * Dark & Light mode
   
+
+## Video
+https://github.com/JustJerem/OlympicGame/assets/13336422/911ad125-240c-4111-a5dd-fb2d3194a3a3
+
 
 
 ## Screen Shots
